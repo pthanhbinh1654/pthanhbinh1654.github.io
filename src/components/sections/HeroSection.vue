@@ -55,7 +55,7 @@
           </div>
           <div class="stat-item">
             <dt class="stat-label text-muted font-mono">Location</dt>
-            <dd class="stat-value">Can Tho, Vietnam</dd>
+            <dd class="stat-value">Ho Chi Minh City, Vietnam</dd>
           </div>
         </dl>
       </div>

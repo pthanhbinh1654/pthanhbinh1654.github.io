@@ -39,7 +39,7 @@
       </div>
 
       <p class="contact-note text-muted">
-        Based in Can Tho, Vietnam. Available for remote or on-site positions.
+        Based in Ho Chi Minh City, Vietnam. Available for remote or on-site positions.
       </p>
     </div>
   </section>
