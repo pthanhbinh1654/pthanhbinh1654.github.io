@@ -39,5 +39,9 @@ export function useSeoMeta({ title, description }: SeoMeta) {
         canonical.href = window.location.href
     }
 
-    watch(() => route.path, updateMeta, { immediate: true })
+    if (route) {
+        watch(() => route?.path, updateMeta, { immediate: true })
+    } else {
+        updateMeta()
+    }
 }
