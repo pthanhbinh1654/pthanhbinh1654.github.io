@@ -3,22 +3,27 @@
     <div class="container">
       <SectionHeading
         id="projects-heading"
-        label="// projects"
-        title="Projects"
-        description="Four projects built during study and internship. All source code is available on GitHub."
+        :label="t.projects.label"
+        :title="t.projects.title"
+        :description="t.projects.description"
       />
 
       <div class="projects-grid">
-        <ProjectCard v-for="project in projects" :key="project.slug" :project="project" />
+        <ProjectCard v-for="project in projectList" :key="project.slug" :project="project" />
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import ProjectCard from '@/components/ui/ProjectCard.vue'
-import { projects } from '@/data/projects'
+import { getProjects } from '@/data/projects'
+import { useLocale } from '@/i18n/useLocale'
+
+const { t, locale } = useLocale()
+const projectList = computed(() => getProjects(locale.value))
 </script>
 
 <style scoped>

@@ -3,9 +3,9 @@
     <div class="container">
       <SectionHeading
         id="contact-heading"
-        label="// contact"
-        title="Get in Touch"
-        description="Open to SOC Analyst, Security Engineer, and PKI Engineer roles. Reach out via email or GitHub."
+        :label="t.contact.label"
+        :title="t.contact.title"
+        :description="t.contact.description"
       />
 
       <div class="contact-grid">
@@ -14,7 +14,7 @@
             <MailIcon :size="24" />
           </div>
           <div class="contact-text">
-            <p class="contact-method">Email</p>
+            <p class="contact-method">{{ t.contact.emailMethod }}</p>
             <p class="contact-value">pthanhbinh2654@gmail.com</p>
           </div>
           <ExternalLinkIcon :size="16" class="contact-arrow text-muted" aria-hidden="true" />
@@ -31,7 +31,7 @@
             <GithubIcon :size="24" />
           </div>
           <div class="contact-text">
-            <p class="contact-method">GitHub</p>
+            <p class="contact-method">{{ t.contact.githubMethod }}</p>
             <p class="contact-value">pthanhbinh1654</p>
           </div>
           <ExternalLinkIcon :size="16" class="contact-arrow text-muted" aria-hidden="true" />
@@ -39,7 +39,7 @@
       </div>
 
       <p class="contact-note text-muted">
-        Based in Ho Chi Minh City, Vietnam. Available for remote or on-site positions.
+        {{ t.contact.note }}
       </p>
     </div>
   </section>
@@ -48,6 +48,9 @@
 <script setup lang="ts">
 import { Mail as MailIcon, Github as GithubIcon, ExternalLink as ExternalLinkIcon } from 'lucide-vue-next'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
+import { useLocale } from '@/i18n/useLocale'
+
+const { t } = useLocale()
 </script>
 
 <style scoped>

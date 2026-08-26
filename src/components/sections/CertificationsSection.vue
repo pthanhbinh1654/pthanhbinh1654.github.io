@@ -3,21 +3,26 @@
     <div class="container">
       <SectionHeading
         id="certs-heading"
-        label="// certifications"
-        title="Certifications"
+        :label="t.certifications.label"
+        :title="t.certifications.title"
       />
 
       <div class="certs-grid">
-        <CertBadge v-for="cert in certifications" :key="cert.name" :cert="cert" />
+        <CertBadge v-for="cert in certList" :key="cert.name" :cert="cert" />
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import CertBadge from '@/components/ui/CertBadge.vue'
-import { certifications } from '@/data/certifications'
+import { getCertifications } from '@/data/certifications'
+import { useLocale } from '@/i18n/useLocale'
+
+const { t, locale } = useLocale()
+const certList = computed(() => getCertifications(locale.value))
 </script>
 
 <style scoped>

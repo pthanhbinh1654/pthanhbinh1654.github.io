@@ -3,30 +3,22 @@
     <div class="container">
       <SectionHeading
         id="about-heading"
-        label="// about"
-        title="Background"
-        description="Information Security graduate with hands-on project experience in PKI, log monitoring, cryptography, and data engineering."
+        :label="t.about.label"
+        :title="t.about.title"
+        :description="t.about.description"
       />
 
       <div class="about-grid">
         <div class="about-text">
-          <p>
-            Completed a Bachelor of Information Security in 2026 at Can Tho University — College of Information and Communication Technology — with a GPA of 3.85/4.00 and the Academic Encouragement Scholarship for 6 consecutive semesters.
-          </p>
-          <p>
-            During a data engineering internship at Mekosoft Software Solutions, developed dbt models for approximately 3 million records and built a Python/Jinja2 utility that later became the Kimball DimFact Builder project.
-          </p>
-          <p>
-            Graduation thesis focused on building an internal PKI platform using HashiCorp Vault as the certificate authority and immudb for tamper-evident audit logging — both components selected based on their use in production security infrastructure.
-          </p>
-          <p>
-            Seeking a first role as a SOC Analyst, Security Engineer, or PKI Engineer where I can apply the fundamentals built through these academic and internship projects.
-          </p>
+          <p>{{ t.about.p1 }}</p>
+          <p>{{ t.about.p2 }}</p>
+          <p>{{ t.about.p3 }}</p>
+          <p>{{ t.about.p4 }}</p>
         </div>
 
         <div class="about-details">
           <div class="detail-group">
-            <h3 class="detail-label text-muted font-mono">Relevant Coursework</h3>
+            <h3 class="detail-label text-muted font-mono">{{ t.about.courseworkLabel }}</h3>
             <ul class="detail-list" role="list">
               <li v-for="course in coursework" :key="course" class="detail-item">
                 <CheckIcon :size="14" class="text-primary" aria-hidden="true" />
@@ -36,21 +28,21 @@
           </div>
 
           <div class="detail-group">
-            <h3 class="detail-label text-muted font-mono">Languages</h3>
+            <h3 class="detail-label text-muted font-mono">{{ t.about.languagesLabel }}</h3>
             <ul class="detail-list" role="list">
               <li class="detail-item">
                 <CheckIcon :size="14" class="text-primary" aria-hidden="true" />
-                <span>Vietnamese — Native</span>
+                <span>{{ t.about.langVi }}</span>
               </li>
               <li class="detail-item">
                 <CheckIcon :size="14" class="text-primary" aria-hidden="true" />
-                <span>English — Intermediate, technical documentation</span>
+                <span>{{ t.about.langEn }}</span>
               </li>
             </ul>
           </div>
 
           <div class="detail-group">
-            <h3 class="detail-label text-muted font-mono">Contact</h3>
+            <h3 class="detail-label text-muted font-mono">{{ t.about.contactLabel }}</h3>
             <ul class="detail-list" role="list">
               <li class="detail-item">
                 <MailIcon :size="14" class="text-primary" aria-hidden="true" />
@@ -69,16 +61,31 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Check as CheckIcon, Mail as MailIcon, Github as GithubIcon } from 'lucide-vue-next'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
+import { useLocale } from '@/i18n/useLocale'
 
-const coursework = [
-  'Operating Systems',
-  'Computer Networks',
-  'Network Security',
-  'Computer Forensics',
-  'Cryptography',
-]
+const { t, locale } = useLocale()
+
+const coursework = computed(() => {
+  if (locale.value === 'vi') {
+    return [
+      'Hệ điều hành',
+      'Mạng máy tính',
+      'An toàn mạng',
+      'Điều tra số (Computer Forensics)',
+      'Mật mã học',
+    ]
+  }
+  return [
+    'Operating Systems',
+    'Computer Networks',
+    'Network Security',
+    'Computer Forensics',
+    'Cryptography',
+  ]
+})
 </script>
 
 <style scoped>

@@ -3,13 +3,13 @@
     <div class="container">
       <SectionHeading
         id="skills-heading"
-        label="// skills"
-        title="Technical Skills"
-        description="Skills demonstrated through projects and internship. Grouped by domain."
+        :label="t.skills.label"
+        :title="t.skills.title"
+        :description="t.skills.description"
       />
 
       <div class="skills-grid">
-        <BaseCard v-for="group in skillGroups" :key="group.category">
+        <BaseCard v-for="group in groups" :key="group.category">
           <SkillGroup :group="group" />
         </BaseCard>
       </div>
@@ -18,10 +18,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import BaseCard from '@/components/ui/BaseCard.vue'
 import SkillGroup from '@/components/ui/SkillGroup.vue'
-import { skillGroups } from '@/data/skills'
+import { getSkillGroups } from '@/data/skills'
+import { useLocale } from '@/i18n/useLocale'
+
+const { t, locale } = useLocale()
+const groups = computed(() => getSkillGroups(locale.value))
 </script>
 
 <style scoped>

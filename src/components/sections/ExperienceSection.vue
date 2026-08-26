@@ -3,18 +3,18 @@
     <div class="container">
       <SectionHeading
         id="experience-heading"
-        label="// experience"
-        title="Experience"
+        :label="t.experience.label"
+        :title="t.experience.title"
       />
 
       <div class="timeline">
         <TimelineItem
-          v-for="exp in experiences"
+          v-for="exp in experienceList"
           :key="exp.company + exp.period"
           :role="exp.role"
           :company="exp.company"
           :period="exp.period"
-          :badge="exp.type === 'internship' ? 'Internship' : undefined"
+          :badge="exp.type === 'internship' ? t.experience.internshipBadge : undefined"
         >
           <ul class="exp-list" role="list">
             <li v-for="item in exp.responsibilities" :key="item" class="exp-item">
@@ -33,10 +33,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import TimelineItem from '@/components/ui/TimelineItem.vue'
 import BaseTag from '@/components/ui/BaseTag.vue'
-import { experiences } from '@/data/experience'
+import { getExperiences } from '@/data/experience'
+import { useLocale } from '@/i18n/useLocale'
+
+const { t, locale } = useLocale()
+const experienceList = computed(() => getExperiences(locale.value))
 </script>
 
 <style scoped>

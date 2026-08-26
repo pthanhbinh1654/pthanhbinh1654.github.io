@@ -5,7 +5,7 @@
       <div class="container project-back">
         <RouterLink to="/#projects" class="back-link">
           <ArrowLeftIcon :size="16" aria-hidden="true" />
-          <span>All Projects</span>
+          <span>{{ t.projectDetail.allProjects }}</span>
         </RouterLink>
       </div>
 
@@ -22,17 +22,17 @@
             <BaseTag v-for="tag in project.tags" :key="tag" variant="primary">{{ tag }}</BaseTag>
           </div>
           <div class="project-cta">
-            <BaseButton :href="project.github" variant="primary" external aria-label="View source code on GitHub">
+            <BaseButton :href="project.github" variant="primary" external :aria-label="t.projectDetail.sourceCode">
               <GithubIcon :size="16" aria-hidden="true" />
-              Source Code
+              {{ t.projectDetail.sourceCode }}
             </BaseButton>
-            <BaseButton v-if="project.docs" :href="project.docs" variant="secondary" external aria-label="View documentation">
+            <BaseButton v-if="project.docs" :href="project.docs" variant="secondary" external :aria-label="t.projectDetail.documentation">
               <FileTextIcon :size="16" aria-hidden="true" />
-              Documentation
+              {{ t.projectDetail.documentation }}
             </BaseButton>
-            <BaseButton v-if="project.demo" :href="project.demo" variant="secondary" external aria-label="View live demo">
+            <BaseButton v-if="project.demo" :href="project.demo" variant="secondary" external :aria-label="t.projectDetail.demo">
               <ExternalLinkIcon :size="16" aria-hidden="true" />
-              Demo
+              {{ t.projectDetail.demo }}
             </BaseButton>
           </div>
         </div>
@@ -40,31 +40,31 @@
 
       <div class="container project-body">
         <!-- Overview -->
-        <Section title="Overview" icon="info">
+        <Section :title="t.projectDetail.secOverview" icon="info">
           <p class="prose text-muted">{{ project.overview }}</p>
         </Section>
 
         <!-- Problem -->
-        <Section title="Problem Statement" icon="alert">
+        <Section :title="t.projectDetail.secProblem" icon="alert">
           <p class="prose text-muted">{{ project.problem }}</p>
         </Section>
 
         <!-- Architecture -->
-        <Section title="Architecture">
+        <Section :title="t.projectDetail.secArchitecture">
           <div class="arch-block">
             <pre class="arch-diagram font-mono"><code>{{ project.architecture }}</code></pre>
           </div>
         </Section>
 
         <!-- Tech Stack -->
-        <Section title="Technology Stack">
+        <Section :title="t.projectDetail.secTechStack">
           <div class="table-wrapper">
-            <table class="tech-table" aria-label="Technology stack">
+            <table class="tech-table" :aria-label="t.projectDetail.secTechStack">
               <thead>
                 <tr>
-                  <th scope="col">Layer</th>
-                  <th scope="col">Technology</th>
-                  <th scope="col">Detail</th>
+                  <th scope="col">{{ t.projectDetail.thLayer }}</th>
+                  <th scope="col">{{ t.projectDetail.thTechnology }}</th>
+                  <th scope="col">{{ t.projectDetail.thDetail }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -79,7 +79,7 @@
         </Section>
 
         <!-- My Contribution -->
-        <Section title="My Contribution">
+        <Section :title="t.projectDetail.secContribution">
           <ul class="prose-list" role="list">
             <li v-for="item in project.contribution" :key="item" class="prose-item">
               <span class="item-dot text-primary" aria-hidden="true">—</span>
@@ -89,7 +89,7 @@
         </Section>
 
         <!-- Implementation Details -->
-        <Section title="Implementation Details">
+        <Section :title="t.projectDetail.secImplementation">
           <ul class="prose-list" role="list">
             <li v-for="item in project.implementation" :key="item" class="prose-item">
               <span class="item-dot text-primary" aria-hidden="true">—</span>
@@ -99,7 +99,7 @@
         </Section>
 
         <!-- Security Considerations -->
-        <Section title="Security Considerations">
+        <Section :title="t.projectDetail.secSecurity">
           <ul class="prose-list" role="list">
             <li v-for="item in project.security" :key="item" class="prose-item">
               <ShieldIcon :size="14" class="text-primary item-icon" aria-hidden="true" />
@@ -109,7 +109,7 @@
         </Section>
 
         <!-- Challenges -->
-        <Section title="Challenges">
+        <Section :title="t.projectDetail.secChallenges">
           <ul class="prose-list" role="list">
             <li v-for="item in project.challenges" :key="item" class="prose-item">
               <span class="item-dot text-muted" aria-hidden="true">—</span>
@@ -119,7 +119,7 @@
         </Section>
 
         <!-- Lessons Learned -->
-        <Section title="Lessons Learned">
+        <Section :title="t.projectDetail.secLessons">
           <ul class="prose-list" role="list">
             <li v-for="item in project.lessonsLearned" :key="item" class="prose-item">
               <span class="item-dot text-primary" aria-hidden="true">—</span>
@@ -129,7 +129,7 @@
         </Section>
 
         <!-- Limitations -->
-        <Section title="Limitations">
+        <Section :title="t.projectDetail.secLimitations">
           <ul class="prose-list" role="list">
             <li v-for="item in project.limitations" :key="item" class="prose-item">
               <span class="item-dot text-muted" aria-hidden="true">—</span>
@@ -139,7 +139,7 @@
         </Section>
 
         <!-- Future Work -->
-        <Section title="Future Work">
+        <Section :title="t.projectDetail.secFutureWork">
           <ul class="prose-list" role="list">
             <li v-for="item in project.futureWork" :key="item" class="prose-item">
               <span class="item-dot text-primary" aria-hidden="true">—</span>
@@ -149,21 +149,21 @@
         </Section>
 
         <!-- Links -->
-        <Section title="Repository & Resources">
+        <Section :title="t.projectDetail.secResources">
           <div class="resource-links">
             <a :href="project.github" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="View source code on GitHub (opens in new tab)">
               <GithubIcon :size="16" aria-hidden="true" />
-              <span>Source Code — GitHub</span>
+              <span>{{ t.projectDetail.sourceCode }} — GitHub</span>
               <ExternalLinkIcon :size="12" aria-hidden="true" class="text-muted" />
             </a>
             <a v-if="project.docs" :href="project.docs" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="View documentation (opens in new tab)">
               <FileTextIcon :size="16" aria-hidden="true" />
-              <span>Documentation</span>
+              <span>{{ t.projectDetail.documentation }}</span>
               <ExternalLinkIcon :size="12" aria-hidden="true" class="text-muted" />
             </a>
             <a v-if="project.demo" :href="project.demo" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="View demo (opens in new tab)">
               <ExternalLinkIcon :size="16" aria-hidden="true" />
-              <span>Demo</span>
+              <span>{{ t.projectDetail.demo }}</span>
             </a>
           </div>
         </Section>
@@ -172,10 +172,10 @@
 
     <!-- Not found -->
     <div v-else class="not-found container">
-      <h1>Project not found</h1>
+      <h1>{{ t.projectDetail.notFound }}</h1>
       <RouterLink to="/" class="back-link">
         <ArrowLeftIcon :size="16" aria-hidden="true" />
-        Return home
+        {{ t.projectDetail.returnHome }}
       </RouterLink>
     </div>
   </AppLayout>
@@ -194,9 +194,9 @@ import {
 import AppLayout from '@/components/layout/AppLayout.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseTag from '@/components/ui/BaseTag.vue'
-import { projects } from '@/data/projects'
-import type { Project } from '@/data/projects'
+import { getProjectBySlug, type Project } from '@/data/projects'
 import { useSeoMeta } from '@/composables/useSeoMeta'
+import { useLocale } from '@/i18n/useLocale'
 
 // Internal section component
 const Section = defineComponent({
@@ -211,21 +211,32 @@ const Section = defineComponent({
 })
 
 const route = useRoute()
+const { t, locale } = useLocale()
 const slug = computed(() => route.params.slug as string)
-const project = computed<Project | undefined>(() => projects.find((p) => p.slug === slug.value))
+const project = computed<Project | undefined>(() => getProjectBySlug(slug.value, locale.value))
 
 const statusLabel = computed(() => {
   if (!project.value) return ''
-  const map: Record<Project['status'], string> = { ready: 'Complete', partial: 'Partial', roadmap: 'Roadmap' }
+  const map: Record<Project['status'], string> = {
+    ready: t.value.projects.statusReady,
+    partial: t.value.projects.statusPartial,
+    roadmap: t.value.projects.statusRoadmap,
+  }
   return map[project.value.status]
 })
 
 // SEO
+const metaTitle = computed(() =>
+  project.value
+    ? `${project.value.title} — ${locale.value === 'vi' ? 'Phan Thanh Bình' : 'Phan Thanh Binh'}`
+    : `Project — ${locale.value === 'vi' ? 'Phan Thanh Bình' : 'Phan Thanh Binh'}`
+)
+
+const metaDescription = computed(() => project.value?.tagline ?? 'Project details')
+
 useSeoMeta({
-  title: project.value
-    ? `${project.value.title} — Phan Thanh Binh`
-    : 'Project — Phan Thanh Binh',
-  description: project.value?.tagline ?? 'Project details',
+  title: metaTitle,
+  description: metaDescription,
 })
 </script>
 
@@ -289,6 +300,11 @@ useSeoMeta({
   color: var(--color-warning);
 }
 
+.status--roadmap {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-muted);
+}
+
 .project-title {
   font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
   font-weight: var(--font-bold);
@@ -298,85 +314,53 @@ useSeoMeta({
 }
 
 .project-tagline {
-  font-size: var(--text-lg);
-  margin-top: var(--space-4);
-  max-width: 60ch;
+  font-size: clamp(var(--text-base), 2vw, var(--text-lg));
+  margin-top: var(--space-3);
+  max-width: 65ch;
+  line-height: var(--leading-relaxed);
 }
 
 .project-tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-top: var(--space-5);
+  margin-top: var(--space-6);
 }
 
 .project-cta {
   display: flex;
   gap: var(--space-3);
-  margin-top: var(--space-6);
+  margin-top: var(--space-8);
   flex-wrap: wrap;
 }
 
 .project-body {
+  padding-top: var(--space-12);
   display: flex;
   flex-direction: column;
-  gap: 0;
-  padding-top: var(--space-10);
+  gap: var(--space-12);
+  max-width: 860px;
 }
 
-/* Section styling */
 :deep(.project-section) {
-  padding-block: var(--space-10);
-  border-bottom: 1px solid var(--color-border);
-}
-
-:deep(.project-section:last-child) {
-  border-bottom: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 }
 
 :deep(.section-title) {
   font-size: var(--text-xl);
   font-weight: var(--font-semibold);
   color: var(--color-text);
-  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
 }
 
-:deep(.section-body) {
-  max-width: 800px;
-}
-
-/* Prose */
 .prose {
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
 }
 
-.prose-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.prose-item {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  font-size: var(--text-sm);
-  line-height: var(--leading-relaxed);
-}
-
-.item-dot {
-  flex-shrink: 0;
-  font-weight: var(--font-bold);
-  margin-top: 2px;
-}
-
-.item-icon {
-  flex-shrink: 0;
-  margin-top: 3px;
-}
-
-/* Architecture block */
 .arch-block {
   background: var(--color-card);
   border: 1px solid var(--color-border);
@@ -387,14 +371,14 @@ useSeoMeta({
 
 .arch-diagram {
   font-size: var(--text-xs);
-  color: var(--color-muted);
+  color: var(--color-text);
   line-height: 1.6;
-  white-space: pre;
 }
 
-/* Tech table */
 .table-wrapper {
   overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
 }
 
 .tech-table {
@@ -403,34 +387,55 @@ useSeoMeta({
   font-size: var(--text-sm);
 }
 
-.tech-table th {
-  text-align: left;
-  padding: var(--space-3) var(--space-4);
-  font-size: var(--text-xs);
-  font-weight: var(--font-semibold);
-  color: var(--color-muted);
-  font-family: var(--font-mono);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--color-border);
-}
-
+.tech-table th,
 .tech-table td {
   padding: var(--space-3) var(--space-4);
-  color: var(--color-text);
+  text-align: left;
   border-bottom: 1px solid var(--color-border);
-  vertical-align: top;
 }
 
-.tech-table tbody tr:last-child td {
+.tech-table th {
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.tech-table tr:last-child td {
   border-bottom: none;
 }
 
-.tech-table tbody tr:hover td {
+.tech-table tr:hover td {
   background: rgba(255, 255, 255, 0.02);
 }
 
-/* Resource links */
+.prose-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.prose-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+}
+
+.item-dot {
+  flex-shrink: 0;
+  font-weight: var(--font-bold);
+  margin-top: 1px;
+}
+
+.item-icon {
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
 .resource-links {
   display: flex;
   flex-direction: column;
@@ -438,24 +443,30 @@ useSeoMeta({
 }
 
 .resource-link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-sm);
-  color: var(--color-primary);
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   text-decoration: none;
-  transition: opacity var(--transition-fast);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .resource-link:hover {
-  opacity: 0.8;
+  border-color: rgba(56, 189, 248, 0.2);
+  box-shadow: var(--shadow-primary);
+  opacity: 1;
 }
 
-/* Not found */
 .not-found {
-  padding-block: var(--space-24);
+  padding-block: var(--space-20);
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  align-items: flex-start;
+  gap: var(--space-4);
 }
 </style>

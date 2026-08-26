@@ -1,47 +1,48 @@
-import { watch } from 'vue'
+import { watch, unref, type Ref, type ComputedRef } from 'vue'
 import { useRoute } from 'vue-router'
 
 interface SeoMeta {
-    title: string
-    description: string
+  title: string | Ref<string> | ComputedRef<string>
+  description: string | Ref<string> | ComputedRef<string>
 }
 
 export function useSeoMeta({ title, description }: SeoMeta) {
-    const route = useRoute()
+  const route = useRoute()
 
-    const updateMeta = () => {
-        // Title
-        document.title = title
+  const updateMeta = () => {
+    const titleVal = unref(title)
+    const descVal = unref(description)
 
-        // Description
-        const desc = document.querySelector('meta[name="description"]')
-        if (desc) desc.setAttribute('content', description)
+    // Title
+    document.title = titleVal
 
-        // OG title
-        const ogTitle = document.querySelector('meta[property="og:title"]')
-        if (ogTitle) ogTitle.setAttribute('content', title)
+    // Description
+    const desc = document.querySelector('meta[name="description"]')
+    if (desc) desc.setAttribute('content', descVal)
 
-        // OG description
-        const ogDesc = document.querySelector('meta[property="og:description"]')
-        if (ogDesc) ogDesc.setAttribute('content', description)
+    // OG title
+    const ogTitle = document.querySelector('meta[property="og:title"]')
+    if (ogTitle) ogTitle.setAttribute('content', titleVal)
 
-        // OG URL
-        const ogUrl = document.querySelector('meta[property="og:url"]')
-        if (ogUrl) ogUrl.setAttribute('content', window.location.href)
+    // OG description
+    const ogDesc = document.querySelector('meta[property="og:description"]')
+    if (ogDesc) ogDesc.setAttribute('content', descVal)
 
-        // Canonical
-        let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null
-        if (!canonical) {
-            canonical = document.createElement('link')
-            canonical.rel = 'canonical'
-            document.head.appendChild(canonical)
-        }
-        canonical.href = window.location.href
+    // OG URL
+    const ogUrl = document.querySelector('meta[property="og:url"]')
+    if (ogUrl) ogUrl.setAttribute('content', window.location.href)
+
+    // Canonical
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.rel = 'canonical'
+      document.head.appendChild(canonical)
     }
+    canonical.href = window.location.href
+  }
 
-    if (route) {
-        watch(() => route?.path, updateMeta, { immediate: true })
-    } else {
-        updateMeta()
-    }
+  watch([() => route?.path, () => unref(title), () => unref(description)], updateMeta, {
+    immediate: true,
+  })
 }

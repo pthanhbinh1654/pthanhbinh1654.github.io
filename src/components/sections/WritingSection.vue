@@ -3,14 +3,14 @@
     <div class="container">
       <SectionHeading
         id="writing-heading"
-        label="// technical writing"
-        title="Technical Writing"
-        description="Documentation written for each project — architecture overviews, setup guides, and API references."
+        :label="t.writing.label"
+        :title="t.writing.title"
+        :description="t.writing.description"
       />
 
       <div class="writing-list">
         <a
-          v-for="item in writingItems"
+          v-for="item in writingList"
           :key="item.title"
           :href="item.url"
           target="_blank"
@@ -36,16 +36,20 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { FileText as FileTextIcon, Github as GithubIcon, ExternalLink as ExternalLinkIcon } from 'lucide-vue-next'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
-import { writingItems } from '@/data/writing'
-import type { WritingItem } from '@/data/writing'
+import { getWritingItems, type WritingItem } from '@/data/writing'
+import { useLocale } from '@/i18n/useLocale'
+
+const { t, locale } = useLocale()
+const writingList = computed(() => getWritingItems(locale.value))
 
 function typeLabel(type: WritingItem['type']): string {
   const map: Record<WritingItem['type'], string> = {
-    readme: 'README',
-    runbook: 'Runbook',
-    guide: 'Guide',
+    readme: t.value.writing.typeReadme,
+    runbook: t.value.writing.typeRunbook,
+    guide: t.value.writing.typeGuide,
   }
   return map[type]
 }

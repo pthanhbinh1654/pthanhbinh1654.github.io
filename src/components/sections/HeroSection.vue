@@ -2,22 +2,20 @@
   <section class="hero section" aria-labelledby="hero-heading">
     <div class="container hero-inner">
       <div class="hero-content fade-in">
-        <p class="hero-label font-mono text-primary">pthanhbinh1654.github.io</p>
-        <h1 id="hero-heading" class="hero-name">Phan Thanh Binh</h1>
-        <p class="hero-title text-muted">Information Security Graduate</p>
+        <p class="hero-label font-mono text-primary">{{ t.hero.label }}</p>
+        <h1 id="hero-heading" class="hero-name">{{ t.hero.name }}</h1>
+        <p class="hero-title text-muted">{{ t.hero.title }}</p>
         <p class="hero-description">
-          Developed projects in PKI certificate management, Windows log collection, 
-          zero-knowledge file encryption, and data engineering. 
-          Open to SOC Analyst, PKI Engineer, and Security Engineer roles.
+          {{ t.hero.description }}
         </p>
         <div class="hero-actions">
           <BaseButton href="#projects" variant="primary">
             <FolderIcon :size="16" aria-hidden="true" />
-            View Projects
+            {{ t.hero.viewProjects }}
           </BaseButton>
           <BaseButton href="#contact" variant="secondary">
             <MailIcon :size="16" aria-hidden="true" />
-            Contact
+            {{ t.hero.contact }}
           </BaseButton>
           <BaseButton
             href="https://github.com/pthanhbinh1654"
@@ -26,7 +24,7 @@
             aria-label="GitHub profile (opens in new tab)"
           >
             <GithubIcon :size="16" aria-hidden="true" />
-            GitHub
+            {{ t.hero.github }}
           </BaseButton>
         </div>
       </div>
@@ -34,35 +32,35 @@
       <div class="hero-meta fade-in fade-in-delay-2">
         <dl class="hero-stats">
           <div class="stat-item">
-            <dt class="stat-label text-muted font-mono">Degree</dt>
-            <dd class="stat-value">B.Sc. Information Security</dd>
+            <dt class="stat-label text-muted font-mono">{{ t.hero.statDegreeLabel }}</dt>
+            <dd class="stat-value">{{ t.hero.statDegreeValue }}</dd>
           </div>
           <div class="stat-item">
-            <dt class="stat-label text-muted font-mono">GPA</dt>
+            <dt class="stat-label text-muted font-mono">{{ t.hero.statGpaLabel }}</dt>
             <dd class="stat-value">3.85 <span class="text-muted">/ 4.00</span></dd>
           </div>
           <div class="stat-item">
-            <dt class="stat-label text-muted font-mono">University</dt>
-            <dd class="stat-value">Can Tho University</dd>
+            <dt class="stat-label text-muted font-mono">{{ t.hero.statUniversityLabel }}</dt>
+            <dd class="stat-value">{{ t.hero.statUniversityValue }}</dd>
           </div>
           <div class="stat-item">
-            <dt class="stat-label text-muted font-mono">Graduated</dt>
+            <dt class="stat-label text-muted font-mono">{{ t.hero.statGraduatedLabel }}</dt>
             <dd class="stat-value">2026</dd>
           </div>
           <div class="stat-item">
-            <dt class="stat-label text-muted font-mono">Projects</dt>
-            <dd class="stat-value">4 <span class="text-muted">GitHub repos</span></dd>
+            <dt class="stat-label text-muted font-mono">{{ t.hero.statProjectsLabel }}</dt>
+            <dd class="stat-value">{{ t.hero.statProjectsValue }}</dd>
           </div>
           <div class="stat-item">
-            <dt class="stat-label text-muted font-mono">Location</dt>
-            <dd class="stat-value">Ho Chi Minh City, Vietnam</dd>
+            <dt class="stat-label text-muted font-mono">{{ t.hero.statLocationLabel }}</dt>
+            <dd class="stat-value">{{ t.hero.statLocationValue }}</dd>
           </div>
         </dl>
       </div>
     </div>
 
     <div class="hero-scroll" aria-hidden="true">
-      <span class="font-mono text-muted">scroll</span>
+      <span class="font-mono text-muted">{{ t.hero.scroll }}</span>
       <ChevronDownIcon :size="16" class="text-muted" />
     </div>
   </section>
@@ -71,6 +69,9 @@
 <script setup lang="ts">
 import { Folder as FolderIcon, Mail as MailIcon, Github as GithubIcon, ChevronDown as ChevronDownIcon } from 'lucide-vue-next'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { useLocale } from '@/i18n/useLocale'
+
+const { t } = useLocale()
 </script>
 
 <style scoped>

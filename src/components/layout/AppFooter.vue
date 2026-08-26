@@ -2,8 +2,8 @@
   <footer class="app-footer" role="contentinfo">
     <div class="container footer-inner">
       <div class="footer-left">
-        <p class="footer-name">Phan Thanh Binh</p>
-        <p class="footer-title text-muted">Information Security Graduate</p>
+        <p class="footer-name">{{ t.footer.name }}</p>
+        <p class="footer-title text-muted">{{ t.footer.title }}</p>
       </div>
 
       <nav class="footer-links" aria-label="Footer navigation">
@@ -28,7 +28,7 @@
       </nav>
 
       <p class="footer-copy text-muted">
-        &copy; {{ year }} Phan Thanh Binh
+        &copy; {{ year }} {{ t.footer.copy }}
       </p>
     </div>
   </footer>
@@ -36,7 +36,9 @@
 
 <script setup lang="ts">
 import { Github as GithubIcon, Mail as MailIcon } from 'lucide-vue-next'
+import { useLocale } from '@/i18n/useLocale'
 
+const { t } = useLocale()
 const year = new Date().getFullYear()
 </script>
 

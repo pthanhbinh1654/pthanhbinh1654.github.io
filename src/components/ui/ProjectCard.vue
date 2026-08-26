@@ -21,7 +21,7 @@
 
       <div class="card-footer">
         <span class="card-cta text-primary">
-          View details
+          {{ t.projects.viewDetails }}
           <ArrowRightIcon :size="14" aria-hidden="true" />
         </span>
         <a
@@ -33,7 +33,7 @@
           @click.stop
         >
           <GithubIcon :size="14" aria-hidden="true" />
-          <span>Source</span>
+          <span>{{ t.projects.source }}</span>
         </a>
       </div>
     </RouterLink>
@@ -45,14 +45,16 @@ import { computed } from 'vue'
 import { ArrowRight as ArrowRightIcon, Github as GithubIcon } from 'lucide-vue-next'
 import BaseTag from './BaseTag.vue'
 import type { Project } from '@/data/projects'
+import { useLocale } from '@/i18n/useLocale'
 
 const props = defineProps<{ project: Project }>()
+const { t } = useLocale()
 
 const statusLabel = computed(() => {
   const map: Record<Project['status'], string> = {
-    ready: 'Complete',
-    partial: 'Partial',
-    roadmap: 'Roadmap',
+    ready: t.value.projects.statusReady,
+    partial: t.value.projects.statusPartial,
+    roadmap: t.value.projects.statusRoadmap,
   }
   return map[props.project.status]
 })

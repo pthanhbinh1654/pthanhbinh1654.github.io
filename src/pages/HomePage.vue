@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import HeroSection from '@/components/sections/HeroSection.vue'
 import AboutSection from '@/components/sections/AboutSection.vue'
@@ -32,10 +33,24 @@ import CertificationsSection from '@/components/sections/CertificationsSection.v
 import WritingSection from '@/components/sections/WritingSection.vue'
 import ContactSection from '@/components/sections/ContactSection.vue'
 import { useSeoMeta } from '@/composables/useSeoMeta'
+import { useLocale } from '@/i18n/useLocale'
+
+const { locale } = useLocale()
+
+const metaTitle = computed(() =>
+  locale.value === 'vi'
+    ? 'Phan Thanh Bình — Portfolio An toàn thông tin'
+    : 'Phan Thanh Binh — Information Security Portfolio'
+)
+
+const metaDescription = computed(() =>
+  locale.value === 'vi'
+    ? 'Cử nhân An toàn thông tin Đại học Cần Thơ. Dự án thực chiến về hạ tầng PKI, thu thập log Windows ELK, mã hóa tệp tin Zero-Knowledge và kỹ thuật dữ liệu.'
+    : 'Information Security graduate from Can Tho University. Projects in PKI, Windows log collection, zero-knowledge encryption, and data engineering.'
+)
 
 useSeoMeta({
-  title: 'Phan Thanh Binh — Information Security Portfolio',
-  description:
-    'Information Security graduate from Can Tho University. Projects in PKI, Windows log collection, zero-knowledge encryption, and data engineering.',
+  title: metaTitle,
+  description: metaDescription,
 })
 </script>

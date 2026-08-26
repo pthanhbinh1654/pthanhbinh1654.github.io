@@ -3,20 +3,20 @@
     <div class="container">
       <SectionHeading
         id="education-heading"
-        label="// education"
-        title="Education"
+        :label="t.education.label"
+        :title="t.education.title"
       />
 
-      <div v-for="edu in education" :key="edu.institution" class="edu-card">
+      <div v-for="edu in eduList" :key="edu.institution" class="edu-card">
         <div class="edu-header">
           <div>
-            <h3 class="edu-degree">{{ edu.degree }} of {{ edu.field }}</h3>
+            <h3 class="edu-degree">{{ edu.degree }} {{ edu.field }}</h3>
             <p class="edu-institution text-primary">{{ edu.institution }}</p>
             <p class="edu-location text-muted">{{ edu.location }}</p>
           </div>
           <div class="edu-right">
             <span class="edu-gpa">
-              <span class="gpa-label font-mono text-muted">GPA</span>
+              <span class="gpa-label font-mono text-muted">{{ t.education.gpaLabel }}</span>
               <span class="gpa-value">{{ edu.gpa }}</span>
             </span>
             <span class="edu-period text-muted font-mono">{{ edu.period }}</span>
@@ -25,7 +25,7 @@
 
         <div class="edu-details">
           <div class="edu-honors">
-            <h4 class="detail-label text-muted font-mono">Honors</h4>
+            <h4 class="detail-label text-muted font-mono">{{ t.education.honorsLabel }}</h4>
             <ul role="list">
               <li v-for="honor in edu.honors" :key="honor" class="honor-item">
                 <StarIcon :size="14" class="text-primary" aria-hidden="true" />
@@ -35,7 +35,7 @@
           </div>
 
           <div class="edu-courses">
-            <h4 class="detail-label text-muted font-mono">Relevant Coursework</h4>
+            <h4 class="detail-label text-muted font-mono">{{ t.education.courseworkLabel }}</h4>
             <div class="course-tags">
               <BaseTag v-for="course in edu.coursework" :key="course">{{ course }}</BaseTag>
             </div>
@@ -47,10 +47,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Star as StarIcon } from 'lucide-vue-next'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import BaseTag from '@/components/ui/BaseTag.vue'
-import { education } from '@/data/education'
+import { getEducation } from '@/data/education'
+import { useLocale } from '@/i18n/useLocale'
+
+const { t, locale } = useLocale()
+const eduList = computed(() => getEducation(locale.value))
 </script>
 
 <style scoped>
