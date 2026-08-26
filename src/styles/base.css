@@ -16,6 +16,13 @@ html {
     font-size: 16px;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--nav-height) + 24px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
 }
 
 body {
@@ -26,6 +33,7 @@ body {
     min-height: 100dvh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 /* Typography */
@@ -76,6 +84,15 @@ button {
     border: none;
     background: none;
     font: inherit;
+}
+
+/* Touch targets: ensure minimum 44px hit area on mobile */
+@media (pointer: coarse) {
+    a,
+    button {
+        min-height: 44px;
+        min-width: 44px;
+    }
 }
 
 /* Skip to content — accessibility */
@@ -141,6 +158,12 @@ button {
     }
 }
 
+@media (max-width: 480px) {
+    .section {
+        padding-block: var(--space-12);
+    }
+}
+
 /* Divider */
 .divider {
     height: 1px;
@@ -159,4 +182,10 @@ button {
 
 .font-mono {
     font-family: var(--font-mono);
+}
+
+/* Selection color */
+::selection {
+    background: rgba(56, 189, 248, 0.25);
+    color: var(--color-text);
 }

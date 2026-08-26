@@ -181,4 +181,35 @@ const { t } = useLocale()
     display: none;
   }
 }
+
+@media (max-width: 640px) {
+  .hero {
+    padding-block: var(--space-12);
+    min-height: auto;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .hero-meta {
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-name {
+    font-size: var(--text-3xl);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>

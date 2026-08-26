@@ -115,4 +115,22 @@ defineProps<{
   border: 1px solid rgba(56, 189, 248, 0.2);
   font-family: var(--font-mono);
 }
+
+@media (max-width: 560px) {
+  .timeline-item {
+    gap: var(--space-3);
+  }
+
+  .timeline-header {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .timeline-right {
+    align-items: flex-start;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: var(--space-3);
+  }
+}
 </style>

@@ -56,3 +56,33 @@
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
 }
+
+/* Disable hover lift on touch devices (prevents sticky hover) */
+@media (hover: none) {
+    .hover-lift:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* Reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in,
+    .fade-in-delay-1,
+    .fade-in-delay-2,
+    .fade-in-delay-3,
+    .fade-in-delay-4 {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .v-enter-active,
+    .v-leave-active {
+        transition: none;
+    }
+
+    .hover-lift:hover {
+        transform: none;
+    }
+}

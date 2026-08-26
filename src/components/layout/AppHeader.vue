@@ -1,8 +1,8 @@
 <template>
   <header class="app-header" :class="{ scrolled: isScrolled }" role="banner">
     <div class="container header-inner">
-      <a href="/" class="logo" aria-label="Phan Thanh Binh — Home">
-        <span class="logo-name">Phan Thanh Binh</span>
+      <a href="/" class="logo" :aria-label="locale === 'vi' ? 'Phan Thanh Bình — Trang chủ' : 'Phan Thanh Binh — Home'">
+        <span class="logo-name">{{ locale === 'vi' ? 'Phan Thanh Bình' : 'Phan Thanh Binh' }}</span>
         <span class="logo-dot" aria-hidden="true">.</span>
       </a>
 
@@ -70,49 +70,51 @@
     </div>
 
     <!-- Mobile menu -->
-    <nav
-      v-if="menuOpen"
-      id="mobile-menu"
-      class="nav-mobile"
-      aria-label="Mobile navigation"
-    >
-      <ul role="list">
-        <li v-for="link in navLinks" :key="link.href">
-          <a
-            :href="link.href"
-            class="nav-link-mobile"
-            @click="handleMobileNavClick($event, link.href)"
-          >{{ link.label }}</a>
-        </li>
-      </ul>
-      <div class="mobile-lang-row">
-        <span class="mobile-lang-label text-muted font-mono">Ngôn ngữ / Language:</span>
-        <div class="lang-switch lang-switch--mobile">
-          <button
-            type="button"
-            class="lang-btn"
-            :class="{ 'lang-btn--active': locale === 'vi' }"
-            @click="setLocale('vi')"
-          >
-            Tiếng Việt (VI)
-          </button>
-          <span class="lang-divider" aria-hidden="true">|</span>
-          <button
-            type="button"
-            class="lang-btn"
-            :class="{ 'lang-btn--active': locale === 'en' }"
-            @click="setLocale('en')"
-          >
-            English (EN)
-          </button>
+    <Transition name="menu">
+      <nav
+        v-if="menuOpen"
+        id="mobile-menu"
+        class="nav-mobile"
+        aria-label="Mobile navigation"
+      >
+        <ul role="list">
+          <li v-for="link in navLinks" :key="link.href">
+            <a
+              :href="link.href"
+              class="nav-link-mobile"
+              :class="{ active: activeSection === link.id }"
+              @click="handleMobileNavClick($event, link.href)"
+            >{{ link.label }}</a>
+          </li>
+        </ul>
+        <div class="mobile-lang-row">
+          <div class="lang-switch lang-switch--mobile">
+            <button
+              type="button"
+              class="lang-btn"
+              :class="{ 'lang-btn--active': locale === 'vi' }"
+              @click="setLocale('vi')"
+            >
+              VI
+            </button>
+            <span class="lang-divider" aria-hidden="true">/</span>
+            <button
+              type="button"
+              class="lang-btn"
+              :class="{ 'lang-btn--active': locale === 'en' }"
+              @click="setLocale('en')"
+            >
+              EN
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </Transition>
   </header>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { Github as GithubIcon, Menu as MenuIcon, X as XIcon } from 'lucide-vue-next'
 import { useScrollSpy } from '@/composables/useScrollSpy'
 import { useLocale } from '@/i18n/useLocale'
@@ -150,8 +152,27 @@ function handleMobileNavClick(event: MouseEvent, href: string) {
   handleNavClick(event, href)
 }
 
-onMounted(() => window.addEventListener('scroll', handleScroll, { passive: true }))
-onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+// Close mobile menu on resize to desktop
+function handleResize() {
+  if (window.innerWidth > 768 && menuOpen.value) {
+    menuOpen.value = false
+  }
+}
+
+// Lock body scroll when mobile menu is open
+watch(menuOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : ''
+})
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('resize', handleResize, { passive: true })
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', handleResize)
+  document.body.style.overflow = ''
+})
 </script>
 
 <style scoped>
@@ -162,14 +183,17 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   right: 0;
   z-index: 100;
   background: transparent;
-  transition: background var(--transition), border-bottom var(--transition);
+  transition: background var(--transition), border-color var(--transition),
+    box-shadow var(--transition);
+  border-bottom: 1px solid transparent;
 }
 
 .app-header.scrolled {
   background: rgba(7, 17, 31, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom-color: var(--color-border);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
 }
 
 .header-inner {
@@ -187,10 +211,19 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   flex-shrink: 0;
 }
 
+.logo:hover {
+  opacity: 1;
+}
+
 .logo-name {
   font-size: var(--text-base);
   font-weight: var(--font-semibold);
   color: var(--color-text);
+  transition: color var(--transition-fast);
+}
+
+.logo:hover .logo-name {
+  color: var(--color-primary);
 }
 
 .logo-dot {
@@ -211,6 +244,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 }
 
 .nav-link {
+  position: relative;
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -220,14 +254,15 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   text-decoration: none;
 }
 
-.nav-link:hover,
-.nav-link.active {
+.nav-link:hover {
   color: var(--color-text);
   background: rgba(255, 255, 255, 0.05);
+  opacity: 1;
 }
 
 .nav-link.active {
   color: var(--color-primary);
+  background: rgba(56, 189, 248, 0.08);
 }
 
 .header-actions {
@@ -256,8 +291,8 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   font-family: inherit;
   font-size: inherit;
   font-weight: var(--font-medium);
-  padding: 2px 4px;
-  border-radius: 2px;
+  padding: 2px 6px;
+  border-radius: 3px;
   cursor: pointer;
   transition: color var(--transition-fast), background var(--transition-fast);
 }
@@ -268,6 +303,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
 .lang-btn--active {
   color: var(--color-primary);
+  background: rgba(56, 189, 248, 0.12);
   font-weight: var(--font-bold);
 }
 
@@ -303,7 +339,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   align-items: center;
   justify-content: center;
   color: var(--color-muted);
-  margin-left: auto;
   padding: var(--space-2);
   border-radius: var(--radius-sm);
   transition: color var(--transition-fast);
@@ -313,16 +348,21 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   color: var(--color-text);
 }
 
+/* Mobile Menu */
 .nav-mobile {
   background: rgba(7, 17, 31, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--color-border);
   padding: var(--space-4) var(--space-6);
+  max-height: calc(100dvh - var(--nav-height));
+  overflow-y: auto;
 }
 
 .nav-mobile ul {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 2px;
 }
 
 .nav-link-mobile {
@@ -336,9 +376,16 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   text-decoration: none;
 }
 
-.nav-link-mobile:hover {
+.nav-link-mobile:hover,
+.nav-link-mobile.active {
   color: var(--color-text);
   background: rgba(255, 255, 255, 0.05);
+  opacity: 1;
+}
+
+.nav-link-mobile.active {
+  color: var(--color-primary);
+  background: rgba(56, 189, 248, 0.08);
 }
 
 .mobile-lang-row {
@@ -346,18 +393,44 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-border);
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.mobile-lang-label {
-  font-size: var(--text-xs);
+  align-items: center;
+  gap: var(--space-3);
 }
 
 .lang-switch--mobile {
-  justify-content: flex-start;
   padding: var(--space-2) var(--space-3);
   gap: var(--space-2);
+}
+
+/* Mobile menu transition */
+.menu-enter-active {
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.menu-leave-active {
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.menu-enter-from {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.menu-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* Tablet breakpoint: hide some nav items to avoid cramping */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .nav-link {
+    padding: var(--space-2);
+    font-size: 13px;
+  }
+
+  .header-inner {
+    gap: var(--space-4);
+  }
 }
 
 @media (max-width: 768px) {
@@ -369,12 +442,21 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
     display: none;
   }
 
+  .github-link {
+    padding: var(--space-2);
+    border: none;
+  }
+
   .menu-toggle {
     display: flex;
   }
 
   .header-actions {
     margin-left: auto;
+  }
+
+  .nav-mobile {
+    padding-inline: var(--space-4);
   }
 }
 </style>

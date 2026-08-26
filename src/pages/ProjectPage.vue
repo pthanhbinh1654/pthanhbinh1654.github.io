@@ -469,4 +469,32 @@ useSeoMeta({
   align-items: flex-start;
   gap: var(--space-4);
 }
+
+@media (max-width: 640px) {
+  .project-hero {
+    padding-block: var(--space-8);
+  }
+
+  .project-body {
+    padding-top: var(--space-8);
+    gap: var(--space-8);
+  }
+
+  .project-cta {
+    flex-direction: column;
+  }
+
+  .project-cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .arch-block {
+    padding: var(--space-4);
+  }
+
+  .arch-diagram {
+    font-size: 11px;
+  }
+}
 </style>
