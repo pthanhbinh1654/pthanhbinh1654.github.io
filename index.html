@@ -59,6 +59,14 @@
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <div id="app"></div>
+    <script>
+      // Clean up any legacy ServiceWorkers that might intercept asset requests
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (var r of registrations) { r.unregister(); }
+        });
+      }
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
