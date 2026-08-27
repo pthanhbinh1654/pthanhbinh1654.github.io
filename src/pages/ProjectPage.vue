@@ -14,6 +14,7 @@
         <div class="container">
           <div class="project-meta-top">
             <span class="meta-period text-muted font-mono">{{ project.period }}</span>
+            <span v-if="project.category" class="meta-category font-mono">{{ project.category }}</span>
             <span class="meta-status" :class="`status--${project.status}`">{{ statusLabel }}</span>
           </div>
           <h1 id="project-heading" class="project-title">{{ project.title }}</h1>
@@ -100,70 +101,69 @@
 
         <!-- Security Considerations -->
         <Section :title="t.projectDetail.secSecurity">
-          <ul class="prose-list" role="list">
-            <li v-for="item in project.security" :key="item" class="prose-item">
-              <ShieldIcon :size="14" class="text-primary item-icon" aria-hidden="true" />
-              <span class="text-muted">{{ item }}</span>
-            </li>
-          </ul>
+          <div class="security-box">
+            <div class="security-header">
+              <ShieldIcon :size="16" class="text-primary" aria-hidden="true" />
+              <span class="font-mono text-sm">{{ t.projectDetail.secSecurity }}</span>
+            </div>
+            <ul class="prose-list" role="list">
+              <li v-for="item in project.security" :key="item" class="prose-item">
+                <span class="item-dot text-primary" aria-hidden="true">—</span>
+                <span class="text-muted">{{ item }}</span>
+              </li>
+            </ul>
+          </div>
         </Section>
 
-        <!-- Challenges -->
-        <Section :title="t.projectDetail.secChallenges">
-          <ul class="prose-list" role="list">
-            <li v-for="item in project.challenges" :key="item" class="prose-item">
-              <span class="item-dot text-muted" aria-hidden="true">—</span>
-              <span class="text-muted">{{ item }}</span>
-            </li>
-          </ul>
-        </Section>
+        <!-- Challenges & Lessons -->
+        <div class="two-col-sections">
+          <Section :title="t.projectDetail.secChallenges">
+            <ul class="prose-list" role="list">
+              <li v-for="item in project.challenges" :key="item" class="prose-item">
+                <span class="item-dot text-primary" aria-hidden="true">—</span>
+                <span class="text-muted">{{ item }}</span>
+              </li>
+            </ul>
+          </Section>
 
-        <!-- Lessons Learned -->
-        <Section :title="t.projectDetail.secLessons">
-          <ul class="prose-list" role="list">
-            <li v-for="item in project.lessonsLearned" :key="item" class="prose-item">
-              <span class="item-dot text-primary" aria-hidden="true">—</span>
-              <span class="text-muted">{{ item }}</span>
-            </li>
-          </ul>
-        </Section>
+          <Section :title="t.projectDetail.secLessons">
+            <ul class="prose-list" role="list">
+              <li v-for="item in project.lessonsLearned" :key="item" class="prose-item">
+                <span class="item-dot text-primary" aria-hidden="true">—</span>
+                <span class="text-muted">{{ item }}</span>
+              </li>
+            </ul>
+          </Section>
+        </div>
 
-        <!-- Limitations -->
-        <Section :title="t.projectDetail.secLimitations">
-          <ul class="prose-list" role="list">
-            <li v-for="item in project.limitations" :key="item" class="prose-item">
-              <span class="item-dot text-muted" aria-hidden="true">—</span>
-              <span class="text-muted">{{ item }}</span>
-            </li>
-          </ul>
-        </Section>
+        <!-- Limitations & Future Work -->
+        <div class="two-col-sections">
+          <Section :title="t.projectDetail.secLimitations">
+            <ul class="prose-list" role="list">
+              <li v-for="item in project.limitations" :key="item" class="prose-item">
+                <span class="item-dot text-primary" aria-hidden="true">—</span>
+                <span class="text-muted">{{ item }}</span>
+              </li>
+            </ul>
+          </Section>
 
-        <!-- Future Work -->
-        <Section :title="t.projectDetail.secFutureWork">
-          <ul class="prose-list" role="list">
-            <li v-for="item in project.futureWork" :key="item" class="prose-item">
-              <span class="item-dot text-primary" aria-hidden="true">—</span>
-              <span class="text-muted">{{ item }}</span>
-            </li>
-          </ul>
-        </Section>
+          <Section :title="t.projectDetail.secFutureWork">
+            <ul class="prose-list" role="list">
+              <li v-for="item in project.futureWork" :key="item" class="prose-item">
+                <span class="item-dot text-primary" aria-hidden="true">—</span>
+                <span class="text-muted">{{ item }}</span>
+              </li>
+            </ul>
+          </Section>
+        </div>
 
-        <!-- Links -->
+        <!-- Resources -->
         <Section :title="t.projectDetail.secResources">
           <div class="resource-links">
-            <a :href="project.github" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="View source code on GitHub (opens in new tab)">
+            <a :href="project.github" target="_blank" rel="noopener noreferrer" class="resource-link">
               <GithubIcon :size="16" aria-hidden="true" />
-              <span>{{ t.projectDetail.sourceCode }} — GitHub</span>
-              <ExternalLinkIcon :size="12" aria-hidden="true" class="text-muted" />
-            </a>
-            <a v-if="project.docs" :href="project.docs" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="View documentation (opens in new tab)">
-              <FileTextIcon :size="16" aria-hidden="true" />
-              <span>{{ t.projectDetail.documentation }}</span>
-              <ExternalLinkIcon :size="12" aria-hidden="true" class="text-muted" />
-            </a>
-            <a v-if="project.demo" :href="project.demo" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="View demo (opens in new tab)">
-              <ExternalLinkIcon :size="16" aria-hidden="true" />
-              <span>{{ t.projectDetail.demo }}</span>
+              <span>GitHub: {{ project.slug }}</span>
+              <ExternalLinkIcon :size="12" aria-hidden="true" />
             </a>
           </div>
         </Section>
@@ -276,10 +276,21 @@ useSeoMeta({
   align-items: center;
   gap: var(--space-3);
   margin-bottom: var(--space-4);
+  flex-wrap: wrap;
 }
 
 .meta-period {
   font-size: var(--text-xs);
+}
+
+.meta-category {
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  padding: 2px var(--space-2);
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.08);
+  color: var(--color-primary);
+  border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 .meta-status {

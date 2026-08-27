@@ -3,7 +3,10 @@
     <RouterLink :to="`/projects/${project.slug}`" class="card-link" :aria-label="`View ${project.title} details`">
       <div class="card-header">
         <div class="card-meta">
-          <span class="card-period text-muted font-mono">{{ project.period }}</span>
+          <div class="card-meta-left">
+            <span class="card-period text-muted font-mono">{{ project.period }}</span>
+            <span v-if="project.category" class="card-category font-mono">{{ project.category }}</span>
+          </div>
           <span class="card-status" :class="`status--${project.status}`">
             {{ statusLabel }}
           </span>
@@ -95,6 +98,23 @@ const statusLabel = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.card-meta-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.card-category {
+  font-size: var(--text-xs);
+  padding: 1px var(--space-2);
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.08);
+  color: var(--color-primary);
+  border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 .card-period {
